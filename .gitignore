@@ -1,3 +1,5 @@
 venv
 dataset
 data
+/lgbm_model.pkl
+/tfidf_vectorizer.pkl

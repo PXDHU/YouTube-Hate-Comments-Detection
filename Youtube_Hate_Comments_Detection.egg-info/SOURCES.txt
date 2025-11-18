@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+Youtube_Hate_Comments_Detection.egg-info/PKG-INFO
+Youtube_Hate_Comments_Detection.egg-info/SOURCES.txt
+Youtube_Hate_Comments_Detection.egg-info/dependency_links.txt
+Youtube_Hate_Comments_Detection.egg-info/top_level.txt
+src/__init__.py

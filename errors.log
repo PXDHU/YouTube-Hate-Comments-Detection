@@ -1,0 +1,58 @@
+2025-11-18 12:57:09,729 - data_ingestion - ERROR - Failed to parse the CSV file: Error tokenizing data. C error: out of memory
+2025-11-18 12:57:09,729 - data_ingestion - ERROR - Failed to complete the data ingestion process: Error tokenizing data. C error: out of memory
+2025-11-18 13:00:46,784 - data_ingestion - ERROR - Failed to parse the CSV file: Error tokenizing data. C error: out of memory
+2025-11-18 13:00:46,784 - data_ingestion - ERROR - Failed to complete the data ingestion process: Error tokenizing data. C error: out of memory
+2025-11-18 13:04:26,905 - data_ingestion - ERROR - Unexpected error during preprocessing: 
+**********************************************************************
+  Resource [93mwordnet[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('wordnet')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mcorpora/wordnet[0m
+
+  Searched in:
+    - 'C:\\Users\\padma/nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\share\\nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\lib\\nltk_data'
+    - 'C:\\Users\\padma\\AppData\\Roaming\\nltk_data'
+    - 'C:\\nltk_data'
+    - 'D:\\nltk_data'
+    - 'E:\\nltk_data'
+**********************************************************************
+
+2025-11-18 13:04:26,908 - data_ingestion - ERROR - Failed to complete the data ingestion process: 
+**********************************************************************
+  Resource [93mwordnet[0m not found.
+  Please use the NLTK Downloader to obtain the resource:
+
+  [31m>>> import nltk
+  >>> nltk.download('wordnet')
+  [0m
+  For more information see: https://www.nltk.org/data.html
+
+  Attempted to load [93mcorpora/wordnet[0m
+
+  Searched in:
+    - 'C:\\Users\\padma/nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\share\\nltk_data'
+    - 'E:\\redemption\\YouTube-Hate-Comments-Detection\\venv\\lib\\nltk_data'
+    - 'C:\\Users\\padma\\AppData\\Roaming\\nltk_data'
+    - 'C:\\nltk_data'
+    - 'D:\\nltk_data'
+    - 'E:\\nltk_data'
+**********************************************************************
+
+2025-11-18 13:09:01,807 - data_ingestion - ERROR - Unexpected error during preprocessing: maximum recursion depth exceeded
+2025-11-18 13:09:01,808 - data_ingestion - ERROR - Failed to complete the data ingestion process: maximum recursion depth exceeded
+2025-11-18 13:12:10,575 - data_ingestion - ERROR - Unexpected error during preprocessing: maximum recursion depth exceeded
+2025-11-18 13:12:10,576 - data_ingestion - ERROR - Failed to complete the data ingestion process: maximum recursion depth exceeded
+2025-11-18 13:14:43,568 - data_ingestion - ERROR - Unexpected error during preprocessing: maximum recursion depth exceeded
+2025-11-18 13:14:43,573 - data_ingestion - ERROR - Failed to complete the data ingestion process: maximum recursion depth exceeded
+2025-11-18 13:27:39,878 - data_ingestion - ERROR - Unexpected error during preprocessing: 
+2025-11-18 13:27:39,879 - data_ingestion - ERROR - Failed to complete the data ingestion process: 

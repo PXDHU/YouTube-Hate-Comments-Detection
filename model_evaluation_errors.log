@@ -1,1 +1,2 @@
 2025-11-18 18:44:23,799 - model_evaluation - ERROR - Failed to complete model evaluation: 'clean_comment'
+2025-11-18 20:30:35,282 - model_evaluation - ERROR - Failed to complete model evaluation: Unable to allocate 32.8 GiB for an array with shape (88180, 50000) and data type float64

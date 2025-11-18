@@ -4,7 +4,7 @@ import logging
 import os
 
 # Set up MLflow tracking URI
-mlflow.set_tracking_uri("http://ec2-3-236-114-102.compute-1.amazonaws.com:5000/")
+mlflow.set_tracking_uri("http://ec2-44-222-128-31.compute-1.amazonaws.com:5000/")
 
 
 # logging configuration
@@ -41,7 +41,7 @@ def load_model_info(file_path: str) -> dict:
 def register_model(model_name: str, model_info: dict):
     """Register the model to the MLflow Model Registry."""
     try:
-        model_uri = f"runs:/{model_info['run_id']}/{model_info['model_path']}"
+        model_uri = f"runs:/{model_info['run_id']}/lgbm_model"
         
         # Register the model
         model_version = mlflow.register_model(model_uri, model_name)

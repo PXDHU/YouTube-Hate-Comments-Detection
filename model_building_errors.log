@@ -1,0 +1,1 @@
+2025-11-19 00:32:29,566 - model_building - ERROR - Failed in model building: Number of classes must be 1 for non-multiclass training

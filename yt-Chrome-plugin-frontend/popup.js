@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   const outputDiv = document.getElementById("output");
-  const API_URL = 'http://ec2-13-200-18-206.ap-south-1.compute.amazonaws.com:5000';   
+  const API_URL = 'http://13.200.18.206:5000';   
   //const API_URL = 'http://localhost:5000';
 
   // Get the current tab's URL

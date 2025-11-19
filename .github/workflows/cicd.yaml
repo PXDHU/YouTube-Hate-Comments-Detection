@@ -80,17 +80,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Pull latest Docker image
-        run: |
-          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+        run: docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
       - name: Stop and remove existing container (if any)
-        run: |
-          if docker ps -a --format '{{.Names}}' | grep -Eq '^cnncls$'; then
-            echo "Stopping and removing existing container..."
-            docker rm -f cnncls
-          else
-            echo "No existing container named 'cnncls' found"
-          fi
+        run: docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm -fv cnncls
 
       - name: Run latest Docker image
         run: |
@@ -103,6 +96,5 @@ jobs:
             -e YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }} \
             ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-
       - name: Clean up old images
-        run: docker system prune -f --filter "until=24h"
+        run: docker system prune -f

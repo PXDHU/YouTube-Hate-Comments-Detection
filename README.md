@@ -85,7 +85,7 @@ The system consists of three main components:
 
 ### Badges
 
-```
+
 ![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.1.2-green.svg)
 ![LightGBM](https://img.shields.io/badge/LightGBM-4.6.0-lightblue.svg)
@@ -94,7 +94,7 @@ The system consists of three main components:
 ![AWS](https://img.shields.io/badge/AWS-EC2%2FECR-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-success.svg)
-```
+
 
 ---
 

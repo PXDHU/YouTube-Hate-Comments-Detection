@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>YouTube Hate Detection</title>
+  <title>YT Sentiment Analyzer</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     /* Global Styles */
@@ -19,7 +19,7 @@
     h1 {
       font-size: 22px;
       font-weight: 700;
-      color: #1db954;
+      color: #FF0000; /* YouTube red */
       text-align: center;
       margin-bottom: 20px;
     }
@@ -35,7 +35,7 @@
     .section-title {
       font-weight: 600;
       font-size: 16px;
-      color: #1db954;
+      color: #FF0000; /* YouTube red */
       margin-bottom: 10px;
       border-bottom: 1px solid #333;
       padding-bottom: 5px;
@@ -68,7 +68,7 @@
 
     .metric:hover {
       transform: translateY(-2px);
-      box-shadow: 0 2px 6px rgba(29, 185, 84, 0.5);
+      box-shadow: 0 2px 6px rgba(255, 0, 0, 0.5); /* red shadow */
     }
 
     .metric-title {
@@ -94,7 +94,7 @@
       margin: 8px 0;
       padding: 10px;
       background-color: #2a2a2a;
-      border-left: 4px solid #1db954;
+      border-left: 4px solid #FF0000; /* red border */
       border-radius: 6px;
       transition: background-color 0.2s ease;
     }
@@ -105,7 +105,7 @@
 
     .comment-sentiment {
       font-weight: bold;
-      color: #1db954;
+      color: #FF0000; /* red sentiment */
       font-size: 13px;
     }
 
@@ -130,7 +130,7 @@
     }
 
     #output::-webkit-scrollbar-thumb {
-      background-color: #1db954;
+      background-color: #FF0000; /* red scrollbar */
       border-radius: 3px;
     }
   </style>

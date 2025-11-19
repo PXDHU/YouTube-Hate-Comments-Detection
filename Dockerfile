@@ -1,13 +1,16 @@
-# Use official Python Alpine image
-FROM python:3.12.12-alpine3.21
+# Use Debian-based slim image
+FROM python:3.11-slim
 
 WORKDIR /app
 
 # Install system dependencies
-RUN apk add --no-cache gcc g++ musl-dev libffi-dev bash
+RUN apt-get update && apt-get install -y build-essential libffi-dev wget curl git && rm -rf /var/lib/apt/lists/*
 
-# Copy all files
+# Copy files
 COPY . /app
+
+# Upgrade pip
+RUN pip install --upgrade pip
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

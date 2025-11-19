@@ -1,0 +1,21 @@
+{
+  "name": "YT Sentiment Analyzer",
+  "version": "1.0",
+  "manifest_version": 3,
+
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "http://localhost:5000/*",
+    "http://ec2-3-227-11-200.compute-1.amazonaws.com:5000/*",
+    "https://www.googleapis.com/*"
+  ],
+
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

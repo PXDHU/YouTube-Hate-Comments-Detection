@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (match && match[1]) {
       const videoId = match[1];
-      outputDiv.innerHTML = `<div class="section-title">YouTube Video ID</div><p>${videoId}</p><p>Fetching comments...</p>`;
+      // outputDiv.innerHTML = `<div class="section-title">YouTube Video ID</div><p>${videoId}</p><p>Fetching comments...</p>`;
 
       const comments = await fetchComments(videoId);
       if (comments.length === 0) {

@@ -2,167 +2,346 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YT Sentiment Analyzer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Global Styles */
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
+    * {
       margin: 0;
-      padding: 15px;
-      width: 360px;
+      padding: 0;
       box-sizing: border-box;
     }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 700;
-      color: #FF0000; /* YouTube red */
-      text-align: center;
-      margin-bottom: 20px;
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #181818 100%);
+      color: #ffffff;
+      width: 360px;
+      min-height: 500px;
+      overflow-x: hidden;
     }
 
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #282828 0%, #181818 100%);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #FF0000;
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .header .subtitle {
+      font-size: 12px;
+      color: #aaaaaa;
+      font-weight: 300;
+    }
+
+    .youtube-icon {
+      display: inline-block;
+      color: #FF0000;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    /* Container */
+    .container {
+      padding: 20px 15px;
+      max-height: 550px;
+      overflow-y: auto;
+    }
+
+    .container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: #0f0f0f;
+      border-radius: 4px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: #FF0000;
+      border-radius: 4px;
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+      background: #cc0000;
+    }
+
+    /* Section Cards (compatible with popup.js) */
     .section {
-      background-color: #1f1f1f;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, #282828 0%, #1f1f1f 100%);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 0, 0, 0.2);
     }
 
     .section-title {
-      font-weight: 600;
       font-size: 16px;
-      color: #FF0000; /* YouTube red */
-      margin-bottom: 10px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
-    }
-
-    p {
-      font-size: 14px;
-      line-height: 1.5;
-      margin: 5px 0;
-      word-break: break-word;
-    }
-
-    /* Metrics Styling */
-    .metrics-container {
+      font-weight: 600;
+      color: #FF0000;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin-top: 10px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      height: 2px;
+      width: 30px;
+      background: linear-gradient(90deg, transparent, #FF0000);
+    }
+
+    .section-title::after {
+      background: linear-gradient(90deg, #FF0000, transparent);
+    }
+
+    /* Metrics Grid (compatible with popup.js) */
+    .metrics-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 15px;
     }
 
     .metric {
-      width: 48%;
-      background-color: #2a2a2a;
-      margin-bottom: 10px;
-      padding: 12px;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 18px 12px;
       text-align: center;
-      transition: transform 0.2s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .metric:hover::before {
+      left: 100%;
     }
 
     .metric:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 2px 6px rgba(255, 0, 0, 0.5); /* red shadow */
+      border-color: #FF0000;
+      background: rgba(255, 0, 0, 0.08);
+      transform: scale(1.05);
     }
 
     .metric-title {
-      font-size: 12px;
-      color: #bbbbbb;
+      font-size: 11px;
+      color: #aaaaaa;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 400;
     }
 
     .metric-value {
-      font-size: 20px;
-      font-weight: bold;
-      color: #e0e0e0;
-      margin-top: 5px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1;
+      text-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
     }
 
-    /* Comment List Styling */
+    /* Section paragraphs */
+    .section p {
+      font-size: 14px;
+      color: #cccccc;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    /* Image Containers (for charts, wordcloud, trend graph) */
+    #chart-container img,
+    #wordcloud-container img,
+    #trend-graph-container img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      margin: 15px auto;
+      display: block;
+    }
+
+    #chart-container img:hover,
+    #wordcloud-container img:hover,
+    #trend-graph-container img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+    }
+
+    /* Comments List (compatible with popup.js) */
     .comment-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 15px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .comment-item {
-      margin: 8px 0;
-      padding: 10px;
-      background-color: #2a2a2a;
-      border-left: 4px solid #FF0000; /* red border */
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid #FF0000;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: left;
+      transition: all 0.3s ease;
     }
 
     .comment-item:hover {
-      background-color: #333;
+      background: rgba(255, 255, 255, 0.06);
+      border-left-width: 4px;
+      transform: translateX(4px);
+    }
+
+    .comment-item span:first-child {
+      display: block;
+      font-size: 13px;
+      color: #ffffff;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      word-wrap: break-word;
     }
 
     .comment-sentiment {
-      font-weight: bold;
-      color: #FF0000; /* red sentiment */
-      font-size: 13px;
-    }
-
-    /* Image Styling */
-    img {
-      width: 100%;
-      border-radius: 10px;
-      margin-top: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Scrollable output if content overflows */
-    #output {
-      max-height: 500px;
-      overflow-y: auto;
-      padding-right: 5px;
-    }
-
-    /* Scrollbar Styling */
-    #output::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    #output::-webkit-scrollbar-thumb {
-      background-color: #FF0000; /* red scrollbar */
-      border-radius: 3px;
-    }
-
-    /* Footer Styling */
-    .footer {
-      text-align: center;
-      margin-top: 15px;
       font-size: 12px;
-      color: #bbbbbb;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: rgba(255, 0, 0, 0.2);
+      color: #FF0000;
+      display: inline-block;
+      margin-top: 5px;
     }
 
-    .footer a {
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #FF0000;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 14px;
+      color: #aaaaaa;
+    }
+
+    /* Footer */
+    .footer {
+      background: #0f0f0f;
+      padding: 15px;
+      text-align: center;
+      border-top: 1px solid #282828;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: #666666;
+      margin-bottom: 5px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .footer-link {
       color: #FF0000;
       text-decoration: none;
-      margin: 0 5px;
+      font-size: 11px;
+      font-weight: 500;
+      transition: color 0.3s ease;
     }
 
-    .footer a:hover {
+    .footer-link:hover {
+      color: #ffffff;
       text-decoration: underline;
     }
 
+    /* Progress messages styling */
+    #output > p {
+      font-size: 13px;
+      color: #aaaaaa;
+      text-align: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
-  <h1>YouTube Hate Detection</h1>
-  <div id="output"></div>
+  <!-- Header -->
+  <div class="header">
+    <div class="youtube-icon">▶</div>
+    <h1>YT Sentiment Analyzer</h1>
+    <p class="subtitle">Real-time Comment Analysis</p>
+  </div>
 
-  <!-- Footer with your name and links -->
+  <!-- Main Container -->
+  <div class="container">
+    <div id="output">
+      <!-- Content will be dynamically inserted here by popup.js -->
+    </div>
+  </div>
+
+  <!-- Footer -->
   <div class="footer">
-    Made by <strong>Padmavasan Balakrishnan</strong><br>
-    <a href="https://github.com/PXDHU" target="_blank">GitHub</a> |
-    <a href="https://www.linkedin.com/in/padmavasanbalakrishnan/" target="_blank">LinkedIn</a>
+    <p class="footer-text">Made with ❤️ by <strong>Padmavasan Balakrishnan</strong></p>
+    <div class="footer-links">
+      <a href="https://github.com/PXDHU" target="_blank" class="footer-link">GitHub</a>
+      <a href="https://www.linkedin.com/in/padmavasanbalakrishnan/" target="_blank" class="footer-link">LinkedIn</a>
+    </div>
   </div>
 
   <script src="popup.js"></script>

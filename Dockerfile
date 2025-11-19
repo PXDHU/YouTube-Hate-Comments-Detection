@@ -1,15 +1,22 @@
-FROM python:3.12-slim-bookworm
+# Use official Python Alpine image
+FROM python:3.12.12-alpine3.21
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Install system dependencies
+RUN apk add --no-cache gcc g++ musl-dev libffi-dev bash
+
+# Copy all files
+COPY . /app
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the app
-COPY . .
+# Download NLTK resources
+RUN python3 -m nltk.downloader stopwords wordnet
 
-# Copy the model & vectorizer 
-COPY lgbm_model.pkl ./lgbm_model.pkl
-COPY tfidf_vectorizer.pkl ./tfidf_vectorizer.pkl
+# Expose Flask port
+EXPOSE 5000
 
-CMD ["python", "flask/main.py"]
+# Run Flask app
+CMD ["python3", "flask/main.py"]

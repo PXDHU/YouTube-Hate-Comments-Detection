@@ -11,7 +11,7 @@
 
   "host_permissions": [
     "http://localhost:5000/*",
-    "http://http://13.200.18.206:5000/:5000/*",
+    "http://13.204.224.167:5000/*",
     "https://www.googleapis.com/*"
   ],
 

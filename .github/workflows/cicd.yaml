@@ -1,4 +1,4 @@
-name: workflow
+name: CI/CD Workflow
 
 on:
   push:
@@ -12,26 +12,30 @@ permissions:
   contents: read
 
 jobs:
+  # -----------------------------
+  # Integration / Tests
+  # -----------------------------
   integration:
-    name: Continuous Integration
+    name: Run Tests & Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Lint code
-        run: echo "Linting repository"
+        run: echo "Linting repository..."  # Replace with real linter if needed
 
       - name: Run unit tests
-        run: echo "Running unit tests"
+        run: echo "Running unit tests..."  # Replace with real test command
 
+  # -----------------------------
+  # Build and Push Docker Image
+  # -----------------------------
   build-and-push-ecr-image:
-    name: Continuous Delivery
+    name: Build & Push Docker Image to ECR
     needs: integration
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install Utilities
         run: |
@@ -49,8 +53,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
+      - name: Build & Push Docker Image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
@@ -58,15 +61,17 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
-  continuous-deployment:
-    name: Continuous Deployment
+  # -----------------------------
+  # Deploy on EC2 (Self-hosted Runner)
+  # -----------------------------
+  deploy-on-ec2:
+    name: Deploy on EC2
     needs: build-and-push-ecr-image
-    runs-on: self-hosted
+    runs-on: self-hosted  # <-- Your EC2 runner
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -76,25 +81,22 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Pull latest Docker image
+      - name: Pull Latest Docker Image
         run: docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-      - name: Stop and remove existing container (if any)
-        run: docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm -fv cnncls
+      - name: Stop & Remove Existing Container
+        run: |
+          docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm -fv cnncls || echo "No running container"
 
-      - name: Run latest Docker image
+      - name: Run Latest Docker Image
         run: |
           docker run -d \
             --name cnncls \
             -p 5000:5000 \
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-            -e AWS_REGION=${{ secrets.AWS_REGION }} \
             -e YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }} \
             ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-      - name: Clean up old images
+      - name: Clean Up Old Docker Images
         run: docker system prune -f
